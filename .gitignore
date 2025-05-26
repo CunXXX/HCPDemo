@@ -1,0 +1,28 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build artifacts
+bin/
+obj/
+*.dll
+*.exe
+
+# ASP.NET
+wwwroot/sample-data/
+appsettings.Development.json
+appsettings.Local.json
+appsettings.*.json
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
+
+# Others
+node_modules/
+.env

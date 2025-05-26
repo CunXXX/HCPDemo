@@ -1,0 +1,24 @@
+﻿<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <LayoutView Layout="@typeof(MainLayout)">
+            @* <RedirectToAssetTransfer /> *@
+        </LayoutView>
+    </NotFound>
+</Router>
+
+
+@code {
+    public class RedirectToDefault : ComponentBase
+    {
+        [Inject] NavigationManager Navigation { get; set; } = default!;
+
+        protected override void OnInitialized()
+        {
+            Navigation.NavigateTo("/asset-transfer", forceLoad: false);
+        }
+    }
+}
