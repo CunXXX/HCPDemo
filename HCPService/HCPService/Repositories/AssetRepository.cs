@@ -62,6 +62,7 @@ public class AssetRepository : IAssetRepository
                 f.FAName AS AssetName,
                 f.FASpec AS Spec,
                 d.Qty AS Unit,
+                d.DetNote AS Remark,
                 l.LocationName AS Location,
                 '' AS ReceiverName
             FROM {FA.TableName} f
@@ -130,6 +131,7 @@ public class AssetRepository : IAssetRepository
             f.FAName AS AssetName,
             f.FASpec AS Spec,
             d.Qty AS Unit,
+            d.DetNote AS Remark,
             l.LocationName AS Location,
             '' AS ReceiverName
         FROM {FA.TableName} f

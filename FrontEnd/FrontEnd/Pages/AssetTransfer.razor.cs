@@ -258,15 +258,34 @@ public partial class AssetTransfer
         }
     }
 
-    private void OnAssetCheckboxChanged(string assetId, bool isSelected)
+    /// <summary>
+    /// 勾選資產
+    /// </summary>
+    /// <param name="strAssetId"></param>
+    /// <param name="bIsSelected"></param>
+    private void OnAssetCheckboxChanged(string strAssetId, bool bIsSelected)
     {
-        var pageItem = m_lstAssets.FirstOrDefault(a => a.AssetId == assetId);
-        if (pageItem != null)
-            pageItem.IsSelected = isSelected;
+        var _mPageItem = m_lstAssets.FirstOrDefault(a => a.AssetId == strAssetId);
+        if (_mPageItem != null)
+            _mPageItem.IsSelected = bIsSelected;
 
-        var allItem = m_lstAllAssets.FirstOrDefault(a => a.AssetId == assetId);
-        if (allItem != null)
-            allItem.IsSelected = isSelected;
+        var _mAllItem = m_lstAllAssets.FirstOrDefault(a => a.AssetId == strAssetId);
+        if (_mAllItem != null)
+            _mAllItem.IsSelected = bIsSelected;
+    }
+
+    /// <summary>
+    /// 計算全選 checkbox 的狀態
+    /// </summary>
+    private bool IsAllSelected
+    {
+        get
+        {
+            if (m_lstAssets == null || !m_lstAssets.Any())
+                return false;
+
+            return m_lstAssets.All(x => x.IsSelected);
+        }
     }
 
     #endregion

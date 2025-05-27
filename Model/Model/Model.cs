@@ -18,6 +18,7 @@ public class Model
         public string Spec { get; set; } = string.Empty;
         public string Location { get; set; } = string.Empty;
         public string Unit { get; set; } = string.Empty;
+        public string Remark { get; set; } = string.Empty;
         public string? ReceiverName { get; set; } = string.Empty;
         public string ReceiverId { get; set; } = string.Empty;
         public bool IsSelected { get; set; } = true;

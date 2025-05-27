@@ -28,12 +28,12 @@
             <table>
                 <thead>
                     <tr>
-                        <th><input type="checkbox" @onchange="ToggleSelectAll" /></th>
-                        <th>名稱</th>
-                        <th>描述</th>
-                        <th>分類</th>
+                        <th><input type="checkbox" checked="@IsAllSelected" @onchange="ToggleSelectAll" /></th>
+                        <th>資產編號</th>
+                        <th>資產名稱</th>
                         <th>數量</th>
-                        <th>地點</th>
+                        <th>存放地點</th>
+                        <th>細項備註</th>
                         <th>接收人</th>
                     </tr>
                 </thead>
@@ -48,9 +48,9 @@
                             </td>
                             <td>@asset.AssetNumber</td>
                             <td>@asset.AssetName</td>
-                            <td>@asset.Spec</td>
                             <td>@asset.Unit</td>
                             <td>@asset.Location</td>
+                            <td>@asset.Remark</td>
                             <td>
                                 <input list="receiverList_@asset.AssetId"
                                        @bind="asset.ReceiverKeyword"

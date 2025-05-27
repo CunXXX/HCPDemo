@@ -101,7 +101,7 @@ public class HCPController : ControllerBase
             var ws = _exlPackage.Workbook.Worksheets.Add("資產移轉確認單");
 
             // 標題列
-            var _arrHeaders = new[] { "資產編號", "資產名稱", "規格", "單位", "使用地點", "接收人", "簽名" };
+            var _arrHeaders = new[] { "資產編號", "資產名稱", "單位", "使用地點", "細項備註", "接收人員簽名" };
             for (int i = 0; i < _arrHeaders.Length; i++)
             {
                 ws.Cells[1, i + 1].Value = _arrHeaders[i];
@@ -114,11 +114,10 @@ public class HCPController : ControllerBase
             {
                 ws.Cells[_iRow, 1].Value = asset.AssetNumber;
                 ws.Cells[_iRow, 2].Value = asset.AssetName;
-                ws.Cells[_iRow, 3].Value = asset.Spec;
-                ws.Cells[_iRow, 4].Value = asset.Unit;
-                ws.Cells[_iRow, 5].Value = asset.Location;
-                ws.Cells[_iRow, 6].Value = asset.ReceiverName;
-                ws.Cells[_iRow, 7].Value = ""; 
+                ws.Cells[_iRow, 3].Value = asset.Unit;
+                ws.Cells[_iRow, 4].Value = asset.Location;
+                ws.Cells[_iRow, 5].Value = asset.Remark;
+                ws.Cells[_iRow, 6].Value = "";
                 _iRow++;
             }
 
