@@ -12,14 +12,14 @@ public class Model
 
     public class AssetViewModel
     {
-        public string Id { get; set; } = string.Empty;
+        public string AssetId { get; set; } = string.Empty;
         public string AssetNumber { get; set; } = string.Empty;
         public string AssetName { get; set; } = string.Empty;
         public string Spec { get; set; } = string.Empty;
         public string Location { get; set; } = string.Empty;
         public string Unit { get; set; } = string.Empty;
-        public string? ReceiverName { get; set; }
-        public int? ReceiverId { get; set; }
+        public string? ReceiverName { get; set; } = string.Empty;
+        public string ReceiverId { get; set; } = string.Empty;
         public bool IsSelected { get; set; } = true;
 
         public string? ReceiverKeyword { get; set; }
@@ -28,13 +28,12 @@ public class Model
 
     public class TransferItem
     {
-        public int AssetId { get; set; }
-        public int ReceiverId { get; set; }
+        public string AssetId { get; set; } = string.Empty;
+        public string ReceiverId { get; set; } = string.Empty;
     }
 
     public class EmployeeSuggest
     {
-        public int Id { get; set; }
         public string DisplayName => $"{EmployeeNo} - {Name}";
         public string Name { get; set; } = "";
         public string EmployeeNo { get; set; } = "";
@@ -49,7 +48,7 @@ public class Model
 
     public class PagedResult<T>
     {
-        public int TotalCount { get; set; }
+        public int TotalCount { get; set; } = 0;
         public List<T> Items { get; set; } = new();
     }
 

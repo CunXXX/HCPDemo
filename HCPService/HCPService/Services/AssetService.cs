@@ -12,6 +12,13 @@ public class AssetService
         m_Repo = repo;
     }
 
+    public Task<List<EmployeeSuggest>> SearchEmployeeAsync(string strKeyword)
+    {
+        if (string.IsNullOrWhiteSpace(strKeyword))
+            return Task.FromResult(new List<EmployeeSuggest>());
+        return m_Repo.SearchEmployeeAsync(strKeyword);
+    }
+
     public Task<PagedResult<AssetViewModel>> SearchAssetsByOwnerAsync(AssetQueryRequest Request)
     {
         return m_Repo.GetAssetsByUserAsync(Request.UserId, Request.PageIndex, Request.PageSize);

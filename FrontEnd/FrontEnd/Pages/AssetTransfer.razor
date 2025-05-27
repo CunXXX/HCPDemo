@@ -1,16 +1,17 @@
 ﻿@page "/asset-transfer"
 @using FrontEnd.Services
 @using Microsoft.AspNetCore.Components.WebAssembly.Hosting
-@using static Model.Model
-@inject HttpClient Http
-@inject IJSRuntime JS
+
 
 <div class="container">
-    <h3>資產批次移轉</h3>
+    <h3>資產移轉系統</h3>
 
     <div>
         <label>保管人查詢：</label>
-        <input list="empList" @bind="m_strKeyword" placeholder="輸入姓名或工號" />
+        <input list="empList"
+        @bind="m_strKeyword"
+        @oninput="OnKeywordInput"
+        placeholder="輸入姓名或工號" />
         <datalist id="empList">
             @foreach (var emp in m_lstEmployeeSuggest)
             {
@@ -40,19 +41,23 @@
                 @foreach (var asset in m_lstAssets)
                 {
                     <tr>
-                        <td><input type="checkbox" @bind="asset.IsSelected" /></td>
+                        <td>
+                            <input type="checkbox"
+                            checked="@asset.IsSelected"
+                            @onchange="(e) => OnAssetCheckboxChanged(asset.AssetId, (bool)e.Value!)" />
+                        </td>
                         <td>@asset.AssetNumber</td>
                         <td>@asset.AssetName</td>
                         <td>@asset.Spec</td>
                         <td>@asset.Unit</td>
                         <td>@asset.Location</td>
                         <td>
-                            <input list="receiverList_@asset.Id"
+                            <input list="receiverList_@asset.AssetId"
                             @bind="asset.ReceiverKeyword"
                             @oninput="(e) => OnReceiverInput(asset, e.Value?.ToString())"
                             placeholder="請輸入姓名或工號" />
 
-                            <datalist id="receiverList_@asset.Id">
+                            <datalist id="receiverList_@asset.AssetId">
                                 @foreach (var emp in asset.ReceiverSuggests)
                                 {
                                     <option value="@emp.DisplayName" />
@@ -78,140 +83,3 @@
     }
 </div>
 
-
-@code {
-    [Inject] private AppSettingsService AppSettings { get; set; } = default!;
-
-    [Inject] private IWebAssemblyHostEnvironment HostEnvironment { get; set; } = default!;
-
-    private IJSObjectReference? _module;
-
-    private string m_sVersion = string.Empty;
-
-    private string m_strKeyword = string.Empty;
-
-    private int m_PageIndex = 1;
-    private int m_PageSize = 1;
-    private int m_TotalCount = 0;
-    private int TotalPages => (int)Math.Ceiling((double)m_TotalCount / m_PageSize);
-    private bool CanPrevious => m_PageIndex > 1;
-    private bool CanNext => m_PageIndex < TotalPages;
-
-    /// <summary>
-    /// 資產清單
-    /// </summary>
-    private List<AssetViewModel> m_lstAssets = new();
-
-
-    private List<EmployeeSuggest> m_lstEmployeeSuggest = new();
-
-    protected override async Task OnInitializedAsync()
-    {
-        await AppSettings.LoadAsync();
-
-        if (HostEnvironment.IsDevelopment())
-            m_sVersion = $"?v={DateTime.Now.Ticks}";
-        else
-            m_sVersion = AppSettings.Get<string>("Version");
-    }
-
-    protected override async Task OnAfterRenderAsync(bool bFirstRender)
-    {
-        if (bFirstRender)
-        {
-            _module = await JS.InvokeAsync<IJSObjectReference>("import", $"./Pages/AssetTransfer.razor.js{m_sVersion}");
-        }
-    }
-
-    private async Task OnKeywordInput(ChangeEventArgs e)
-    {
-        var keyword = e.Value?.ToString();
-        if (!string.IsNullOrWhiteSpace(keyword))
-        {
-            m_lstEmployeeSuggest = await Http.GetFromJsonAsync<List<EmployeeSuggest>>(
-                $"api/employee/search?keyword={keyword}"
-            );
-        }
-    }
-
-    private async Task SearchAssets()
-    {
-        var request = new AssetQueryRequest
-            {
-                UserId = m_strKeyword,
-                PageIndex = m_PageIndex,
-                PageSize = m_PageSize
-            };
-
-        var _a = AppSettings.Get<string>("ApiBaseUrl");
-
-        var response = await Http.PostAsJsonAsync($"{_a}/api/v1/HCP/SearchAssetsByUser", request);
-
-        if (response.IsSuccessStatusCode)
-        {
-            var result = await response.Content.ReadFromJsonAsync<PagedResult<AssetViewModel>>();
-            if (result != null)
-            {
-                m_lstAssets = result.Items ?? new();
-                m_TotalCount = result.TotalCount;
-            }
-        }
-    }
-
-    private async Task PreviousPage()
-    {
-        if (CanPrevious)
-        {
-            m_PageIndex--;
-            await SearchAssets();
-        }
-    }
-
-    private async Task NextPage()
-    {
-        if (CanNext)
-        {
-            m_PageIndex++;
-            await SearchAssets();
-        }
-    }
-
-    private Task ExportExcel()
-    {
-        // TODO: 實作匯出 Excel 功能
-        return Task.CompletedTask;
-    }
-
-    private async Task SubmitTransfers()
-    {
-        // var _lstPayload = m_lstAssets
-        //     .Where(a => a.IsSelected && a.ReceiverId.HasValue)
-        //     .Select(a => new TransferItem { AssetId == a.Id, ReceiverId = a.ReceiverId!.Value })
-        //     .ToList();
-
-        // await Http.PostAsJsonAsync("api/asset/batch-transfer", _lstPayload);
-        await SearchAssets();
-    }
-
-
-
-    private void ToggleSelectAll(ChangeEventArgs e)
-    {
-        bool isChecked = (bool)e.Value!;
-        foreach (var asset in m_lstAssets)
-            asset.IsSelected = isChecked;
-    }
-
-    private async Task OnReceiverInput(AssetViewModel asset, string? keyword)
-    {
-        if (string.IsNullOrWhiteSpace(keyword)) return;
-
-        var result = await Http.GetFromJsonAsync<List<EmployeeSuggest>>(
-            $"api/employee/search?keyword={keyword}"
-        );
-
-        asset.ReceiverSuggests = result ?? new();
-    }
-
-
-}

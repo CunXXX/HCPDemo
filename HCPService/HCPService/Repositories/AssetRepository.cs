@@ -16,6 +16,33 @@ public class AssetRepository : IAssetRepository
         m_DB = db;
     }
 
+    public async Task<List<EmployeeSuggest>> SearchEmployeeAsync(string strKeyword)
+    {
+        var _strSql = @$"
+            SELECT Distinct 
+                UserID AS EmployeeNo,
+                UserName AS Name
+            FROM {SysUser.TableName}
+            WHERE IsNotValid = 0
+              AND (UserID LIKE @kw OR UserName LIKE @kw)
+            ORDER BY UserID";
+
+        var _dpParameter = new DynamicParameters();
+
+        _dpParameter.Add("@kw", $"%{strKeyword}%");
+
+        var _ienumEmployees = await m_DB.QueryAsync<EmployeeSuggest>(_strSql, _dpParameter);
+     
+        return _ienumEmployees.ToList() ?? [];
+    }
+
+    /// <summary>
+    /// 查詢使用者資產
+    /// </summary>
+    /// <param name="strUserId"></param>
+    /// <param name="iPageIndex"></param>
+    /// <param name="iPageSize"></param>
+    /// <returns></returns>
     public async Task<PagedResult<AssetViewModel>> GetAssetsByUserAsync(string strUserId, int iPageIndex, int iPageSize)
     {
         //1.先查詢總數量
@@ -30,7 +57,7 @@ public class AssetRepository : IAssetRepository
         //2.查詢資產資料，分頁處理
         _strSql = $@"
             SELECT 
-                f.FACode AS Id,
+                f.FACode AS AssetId,
                 f.FACode AS AssetNumber,
                 f.FAName AS AssetName,
                 f.FASpec AS Spec,
@@ -67,7 +94,6 @@ public class AssetRepository : IAssetRepository
 
     public async Task TransferAssetsAsync(List<TransferItem> lstItems)
     {
-
         try
         {
             var _strSql = @$"
