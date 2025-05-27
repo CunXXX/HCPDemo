@@ -8,7 +8,12 @@
 
     <main>
         <div class="top-row px-4">
-            @* <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a> *@
+            <a href="/document"
+               style="color: #281745; text-decoration: none; font-weight: bold; padding: 8px 16px; border-radius: 4px; transition: all 0.3s ease;"
+               onmouseover="this.style.backgroundColor='#281745'; this.style.color='white'"
+               onmouseout="this.style.backgroundColor='transparent'; this.style.color='#281745'">
+                📊 系統簡報
+            </a>
         </div>
 
         <article class="content px-4">
@@ -16,6 +21,55 @@
         </article>
     </main>
 </div>
+
+<style>
+    .page {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+
+    .top-row {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #e9ecef;
+        padding: 0.5rem 1rem;
+        height: 3.5rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .content {
+        flex: 1;
+        padding: 1rem;
+    }
+
+    main {
+        flex: 1;
+    }
+
+    /* 簡報頁面時隱藏導航 */
+    .presentation-mode .top-row {
+        display: none;
+    }
+
+    .presentation-mode .content {
+        padding: 0;
+    }
+
+    @@media (max-width: 768px) {
+        .top-row nav {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+            .top-row nav span {
+                margin-left: 0;
+                order: -1;
+                font-size: 0.8rem;
+            }
+    }
+</style>
 
 @code {
    
