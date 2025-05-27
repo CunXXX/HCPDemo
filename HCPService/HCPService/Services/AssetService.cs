@@ -33,4 +33,9 @@ public class AssetService
     {
         return m_Repo.GetAssetsForExportAsync(strUserId);
     }
+
+    public Task<EmployeeSuggest?> GetEmployeeAsync(string strUserId)
+    {
+        return m_Repo.GetEmployeeAsync(strUserId);
+    }
 }

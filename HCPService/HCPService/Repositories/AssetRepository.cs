@@ -143,8 +143,24 @@ public class AssetRepository : IAssetRepository
         var _dpParameter = new DynamicParameters();
         _dpParameter.Add("@UserId", strUserId);
 
-        var result = await m_DB.QueryAsync<AssetViewModel>(_strSql, _dpParameter);
-        return result.ToList();
+        var _ienumAssets = await m_DB.QueryAsync<AssetViewModel>(_strSql, _dpParameter);
+        return _ienumAssets.ToList();
     }
 
+    public async Task<EmployeeSuggest?> GetEmployeeAsync(string strUserId)
+    {
+        var _strSql = @$"
+        SELECT TOP 1
+            UserID AS EmployeeNo,
+            UserName AS Name,
+            DeptCode AS DeptCode
+        FROM {SysUser.TableName}
+        WHERE IsNotValid = 0 AND UserID = @UserId";
+
+        var _dpParameter = new DynamicParameters();
+        _dpParameter.Add("@UserId", strUserId);
+
+        var _ienumEmployees = await m_DB.QueryAsync<EmployeeSuggest>(_strSql, _dpParameter);
+        return _ienumEmployees.FirstOrDefault();
+    }
 }

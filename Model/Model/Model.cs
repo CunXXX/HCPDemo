@@ -5,8 +5,8 @@ public class Model
 
     public class AppSettings
     {
-        public string Version { get; set; } = "";
-        public string ApiBaseUrl { get; set; } = "";
+        public string Version { get; set; } = string.Empty;
+        public string ApiBaseUrl { get; set; } = string.Empty;
         public bool EnableFeatureX { get; set; } = false;
     }
 
@@ -36,8 +36,9 @@ public class Model
     public class EmployeeSuggest
     {
         public string DisplayName => $"{EmployeeNo} - {Name}";
-        public string Name { get; set; } = "";
-        public string EmployeeNo { get; set; } = "";
+        public string Name { get; set; } = string.Empty;
+        public string EmployeeNo { get; set; } = string.Empty;
+        public string DeptCode { get; set; } = string.Empty;
     }
 
     public class AssetQueryRequest
