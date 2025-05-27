@@ -6,10 +6,10 @@
 <div class="doc-container">
     <a href="/asset-transfer" class="back-to-app">← 回到系統</a>
 
-    <!-- Slide 1: 標題頁 -->
+    <!-- Slide 0: 標題頁 -->
     <div class="slide active">
-        <div class="logo">HCP PHOTONICS</div>
-        <div class="slide-number">1 / 8</div>
+        <div class="logo">關於系統</div>
+        <div class="slide-number">1 / 9</div>
         <div style="text-align: center; margin-top: 100px;">
             <h1 style="font-size: 3.5rem; color: #667eea; margin-bottom: 20px;">資產移轉系統</h1>
             <h2 style="font-size: 1.8rem; color: #666; margin-bottom: 40px;">Asset Transfer Management System</h2>
@@ -36,10 +36,45 @@
         </div>
     </div>
 
+    <!-- Slide 1: 系統架構流程圖 -->
+    <div class="slide">
+        <div class="logo">關於系統</div>
+        <div class="slide-number">2 / 9</div> <!-- 依照實際總頁數自動調整 -->
+        <div class="slide-header">
+            <h1 class="slide-title">系統資料流程圖</h1>
+            <p class="slide-subtitle">System Flow Diagram</p>
+        </div>
+
+        <section style="margin-top: 40px;">
+            <h3 style="text-align: center; color: #667eea; font-size: 1.6rem; margin-bottom: 30px;">📊 從瀏覽器到資料庫的完整流程</h3>
+
+            <div class="arch-diagram">
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <div class="arch-box">🖥️ 使用者瀏覽器</div>
+                    <div class="arch-arrow">↓</div>
+                    <div class="arch-box">⚡ Blazor WebAssembly</div>
+                    <div class="arch-arrow">↓</div>
+                    <div class="arch-box">🌐 ASP.NET Core API</div>
+                    <div class="arch-arrow">↓</div>
+                    <div class="arch-box">🔧 Service Layer</div>
+                    <div class="arch-arrow">↓</div>
+                    <div class="arch-box">📦 Repository (Dapper)</div>
+                    <div class="arch-arrow">↓</div>
+                    <div class="arch-box">🗄️ SQL Server</div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px; color: #555; font-size: 1rem;">
+                使用者透過瀏覽器操作 Blazor WASM 應用，呼叫 ASP.NET Core API，由 Service 處理邏輯後交由 Repository 使用 Dapper 存取 SQL Server 資料庫。
+            </div>
+        </section>
+    </div>
+
+
     <!-- Slide 2: 系統概述 -->
     <div class="slide">
-        <div class="logo">HCP PHOTONICS</div>
-        <div class="slide-number">2 / 8</div>
+        <div class="logo">關於系統</div>
+        <div class="slide-number">3 / 9</div>
         <div class="slide-header">
             <h1 class="slide-title">系統概述</h1>
             <p class="slide-subtitle">System Overview</p>
@@ -96,8 +131,8 @@
 
     <!-- Slide 3: 技術架構 -->
     <div class="slide">
-        <div class="logo">HCP PHOTONICS</div>
-        <div class="slide-number">3 / 8</div>
+        <div class="logo">關於系統</div>
+        <div class="slide-number">4 / 9</div>
         <div class="slide-header">
             <h1 class="slide-title">技術架構</h1>
             <p class="slide-subtitle">Technical Architecture</p>
@@ -155,8 +190,8 @@
 
     <!-- Slide 4: 核心功能展示 -->
     <div class="slide">
-        <div class="logo">HCP PHOTONICS</div>
-        <div class="slide-number">4 / 8</div>
+        <div class="logo">關於系統</div>
+        <div class="slide-number">5 / 9</div>
         <div class="slide-header">
             <h1 class="slide-title">核心功能展示</h1>
             <p class="slide-subtitle">Core Features Demo</p>
@@ -208,8 +243,8 @@
 
     <!-- Slide 5: 使用者介面展示 -->
     <div class="slide">
-        <div class="logo">HCP PHOTONICS</div>
-        <div class="slide-number">5 / 8</div>
+        <div class="logo">關於系統</div>
+        <div class="slide-number">6 / 9</div>
         <div class="slide-header">
             <h1 class="slide-title">使用者介面設計</h1>
             <p class="slide-subtitle">User Interface Design</p>
@@ -255,8 +290,8 @@
 
     <!-- Slide 6: 檢核控管機制 -->
     <div class="slide">
-        <div class="logo">HCP PHOTONICS</div>
-        <div class="slide-number">6 / 8</div>
+        <div class="logo">關於系統</div>
+        <div class="slide-number">7 / 9</div>
         <div class="slide-header">
             <h1 class="slide-title">檢核控管機制</h1>
             <p class="slide-subtitle">Validation & Control Mechanisms</p>
@@ -329,8 +364,8 @@
 
     <!-- Slide 7: 技術亮點與創新 -->
     <div class="slide">
-        <div class="logo">HCP PHOTONICS</div>
-        <div class="slide-number">7 / 8</div>
+        <div class="logo">關於系統</div>
+        <div class="slide-number">8 / 9</div>
         <div class="slide-header">
             <h1 class="slide-title">技術亮點與創新</h1>
             <p class="slide-subtitle">Technical Highlights & Innovation</p>
@@ -394,8 +429,8 @@
 
     <!-- Slide 8: 總結與展望 -->
     <div class="slide">
-        <div class="logo">HCP PHOTONICS</div>
-        <div class="slide-number">8 / 8</div>
+        <div class="logo">關於系統</div>
+        <div class="slide-number">9 / 9</div>
         <div class="slide-header">
             <h1 class="slide-title">總結與展望</h1>
             <p class="slide-subtitle">Summary & Future Roadmap</p>
