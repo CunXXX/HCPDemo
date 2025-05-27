@@ -28,4 +28,9 @@ public class AssetService
     {
         return m_Repo.TransferAssetsAsync(lstItems);
     }
+
+    public Task<List<AssetViewModel>> GetAssetsForExportAsync(string strUserId)
+    {
+        return m_Repo.GetAssetsForExportAsync(strUserId);
+    }
 }

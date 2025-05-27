@@ -8,13 +8,13 @@ namespace FrontEnd.Pages;
 
 public partial class AssetTransfer
 {
-    [Inject] private AppSettingsService AppSettings { get; set; } = default!;
-    [Inject] private IWebAssemblyHostEnvironment HostEnvironment { get; set; } = default!;
+    [Inject] private AppSettingsService m_AppSettings { get; set; } = default!;
+    [Inject] private IWebAssemblyHostEnvironment m_HostEnvironment { get; set; } = default!;
     [Inject] private HttpClient Http { get; set; } = default!;
     [Inject] private IJSRuntime JS { get; set; } = default!;
 
-    private AssetTransferService _assetTransferService = default!;
-    private IJSObjectReference? _module;
+    private AssetTransferService m_AssetTransferService = default!;
+    private IJSObjectReference? m_Module;
 
     #region 屬性和欄位
 
@@ -46,21 +46,21 @@ public partial class AssetTransfer
 
     protected override async Task OnInitializedAsync()
     {
-        _assetTransferService = new AssetTransferService(Http, AppSettings);
+        m_AssetTransferService = new AssetTransferService(Http, m_AppSettings);
 
-        await AppSettings.LoadAsync();
-
-        if (HostEnvironment.IsDevelopment())
+        if (m_HostEnvironment.IsDevelopment())
             m_sVersion = $"?v={DateTime.Now.Ticks}";
         else
-            m_sVersion = AppSettings.Get<string>("Version");
+            m_sVersion = m_AppSettings.Get<string>("Version");
+
+        await m_AppSettings.LoadAsync();
     }
 
     protected override async Task OnAfterRenderAsync(bool bFirstRender)
     {
         if (bFirstRender)
         {
-            _module = await JS.InvokeAsync<IJSObjectReference>("import", $"./Pages/AssetTransfer.razor.js{m_sVersion}");
+            m_Module = await JS.InvokeAsync<IJSObjectReference>("import", $"./Pages/AssetTransfer.razor.js{m_sVersion}");
         }
     }
 
@@ -84,7 +84,7 @@ public partial class AssetTransfer
         if (m_lstEmployeeSuggest.Any(x => x.DisplayName == keyword))
             return;
 
-        m_lstEmployeeSuggest = await _assetTransferService.SearchEmployeesAsync(keyword);
+        m_lstEmployeeSuggest = await m_AssetTransferService.SearchEmployeesAsync(keyword);
     }
 
     /// <summary>
@@ -104,7 +104,7 @@ public partial class AssetTransfer
             parsedKeyword = keyword.Split(" - ")[0];
         }
 
-        var employees = await _assetTransferService.SearchEmployeesAsync(parsedKeyword);
+        var employees = await m_AssetTransferService.SearchEmployeesAsync(parsedKeyword);
         assetModel.ReceiverSuggests = employees;
 
         // 若使用者選了 DisplayName，找出對應員工
@@ -161,7 +161,7 @@ public partial class AssetTransfer
             PageSize = m_PageSize
         };
 
-        var (success, result, errorMessage) = await _assetTransferService.SearchAssetsByUserAsync(request);
+        var (success, result, errorMessage) = await m_AssetTransferService.SearchAssetsByUserAsync(request);
 
         if (!success)
         {
@@ -273,10 +273,23 @@ public partial class AssetTransfer
 
     #region 動作相關
 
-    private Task ExportExcel()
+    private async Task ExportExcel()
     {
-        // TODO: 實作匯出 Excel 功能
-        return Task.CompletedTask;
+        var matchedEmployee = m_lstEmployeeSuggest
+            .FirstOrDefault(e => e.DisplayName == m_strKeyword);
+
+        if (matchedEmployee == null)
+        {
+            await JS.InvokeVoidAsync("alert", "請先選擇有效的保管人！");
+            return;
+        }
+
+        string _strUrl = $"{m_AppSettings.Get<string>("ApiBaseUrl")}/api/v1/HCP/ExportAssetTransfer?userId={matchedEmployee.EmployeeNo}";
+
+        if (m_Module != null)
+        {
+            await m_Module.InvokeVoidAsync("downloadExcel", _strUrl);
+        }
     }
 
     /// <summary>
@@ -299,7 +312,7 @@ public partial class AssetTransfer
                 .Select(a => new TransferItem { AssetId = a.AssetId, ReceiverId = a.ReceiverId })
                 .ToList();
 
-            var (success, message) = await _assetTransferService.SubmitTransfersAsync(transferItems);
+            var (success, message) = await m_AssetTransferService.SubmitTransfersAsync(transferItems);
 
             await JS.InvokeVoidAsync("alert", message);
 

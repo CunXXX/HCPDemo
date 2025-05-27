@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using FrontEnd;
-using static Model.Model;
 using FrontEnd.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);

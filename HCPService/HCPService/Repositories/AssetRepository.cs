@@ -19,7 +19,7 @@ public class AssetRepository : IAssetRepository
     public async Task<List<EmployeeSuggest>> SearchEmployeeAsync(string strKeyword)
     {
         var _strSql = @$"
-            SELECT Distinct 
+            SELECT DISTINCT 
                 UserID AS EmployeeNo,
                 UserName AS Name
             FROM {SysUser.TableName}
@@ -56,7 +56,7 @@ public class AssetRepository : IAssetRepository
 
         //2.查詢資產資料，分頁處理
         _strSql = $@"
-            SELECT 
+            SELECT DISTINCT
                 f.FACode AS AssetId,
                 f.FACode AS AssetNumber,
                 f.FAName AS AssetName,
@@ -91,7 +91,6 @@ public class AssetRepository : IAssetRepository
     /// </summary>
     /// <param name="lstItems"></param>
     /// <returns></returns>
-
     public async Task TransferAssetsAsync(List<TransferItem> lstItems)
     {
         try
@@ -116,4 +115,34 @@ public class AssetRepository : IAssetRepository
             throw new Exception("資產移轉失敗，已回滾交易", ex);
         }
     }
+
+    /// <summary>
+    /// 取得資產資料以供匯出
+    /// </summary>
+    /// <param name="strUserId"></param>
+    /// <returns></returns>
+    public async Task<List<AssetViewModel>> GetAssetsForExportAsync(string strUserId)
+    {
+        var _strSql = $@"
+        SELECT DISTINCT
+            f.FACode AS AssetId,
+            f.FACode AS AssetNumber,
+            f.FAName AS AssetName,
+            f.FASpec AS Spec,
+            f.Unit,
+            l.LocationName AS Location,
+            '' AS ReceiverName
+        FROM {FA.TableName} f
+        LEFT JOIN {FADet.TableName} d ON f.FACode = d.FACode
+        LEFT JOIN {Location.TableName} l ON d.LocationID = l.LocationID
+        WHERE d.StoreRecorder = @UserId
+        ORDER BY f.FACode";
+
+        var _dpParameter = new DynamicParameters();
+        _dpParameter.Add("@UserId", strUserId);
+
+        var result = await m_DB.QueryAsync<AssetViewModel>(_strSql, _dpParameter);
+        return result.ToList();
+    }
+
 }

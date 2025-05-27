@@ -1,6 +1,7 @@
 ﻿using DBModel;
 using HCPService.Services;
 using Microsoft.AspNetCore.Mvc;
+using OfficeOpenXml;
 using static Model.Model;
 
 namespace HCPService.Controllers;
@@ -49,7 +50,7 @@ public class HCPController : ControllerBase
     /// <param name="Request"></param>
     /// <returns></returns>
     [HttpPost]
-    public async Task<IActionResult> SearchAssetsByUserAsync([FromBody] AssetQueryRequest Request)
+    public async Task<IActionResult> SearchAssetsByUser([FromBody] AssetQueryRequest Request)
     {
         try
         {
@@ -63,11 +64,77 @@ public class HCPController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// 資產轉移
+    /// </summary>
+    /// <param name="lstItems"></param>
+    /// <returns></returns>
     [HttpPost]
     public async Task<IActionResult> TransferAssets([FromBody] List<TransferItem> lstItems)
     {
-        await m_Service.TransferAssetsAsync(lstItems);
-        return Ok();
+        try
+        {
+            await m_Service.TransferAssetsAsync(lstItems);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            return StatusCode(500, new { message = "轉移資產資料失敗，請聯絡系統管理員。" });
+        }
+    }
+
+    /// <summary>
+    /// 匯出資產移轉確認單
+    /// </summary>
+    /// <param name="strUserId"></param>
+    /// <returns></returns>
+    [HttpGet]
+    public async Task<IActionResult> ExportAssetTransfer([FromQuery] string strUserId)
+    {
+        try
+        {
+            var _lstAssets = await m_Service.GetAssetsForExportAsync(strUserId); 
+
+            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+            using var _exlPackage = new ExcelPackage();
+            var ws = _exlPackage.Workbook.Worksheets.Add("資產移轉確認單");
+
+            // 標題列
+            var _arrHeaders = new[] { "資產編號", "資產名稱", "規格", "單位", "使用地點", "接收人", "簽名" };
+            for (int i = 0; i < _arrHeaders.Length; i++)
+            {
+                ws.Cells[1, i + 1].Value = _arrHeaders[i];
+                ws.Cells[1, i + 1].Style.Font.Bold = true;
+            }
+
+            // 資料列
+            int _iRow = 2;
+            foreach (var asset in _lstAssets)
+            {
+                ws.Cells[_iRow, 1].Value = asset.AssetNumber;
+                ws.Cells[_iRow, 2].Value = asset.AssetName;
+                ws.Cells[_iRow, 3].Value = asset.Spec;
+                ws.Cells[_iRow, 4].Value = asset.Unit;
+                ws.Cells[_iRow, 5].Value = asset.Location;
+                ws.Cells[_iRow, 6].Value = asset.ReceiverName;
+                ws.Cells[_iRow, 7].Value = ""; 
+                _iRow++;
+            }
+
+            ws.Cells.AutoFitColumns();
+
+            var _mStream = new MemoryStream();
+            _exlPackage.SaveAs(_mStream);
+            _mStream.Position = 0;
+
+            return File(_mStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "資產移轉確認單.xlsx");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            return StatusCode(500, "匯出失敗，請稍後再試");
+        }
     }
 
 }
