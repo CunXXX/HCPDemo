@@ -15,6 +15,7 @@ public class AssetService
     public Task<List<EmployeeSuggest>> SearchEmployeeAsync(string strKeyword)
     {
         if (string.IsNullOrWhiteSpace(strKeyword))
+
             return Task.FromResult(new List<EmployeeSuggest>());
         return m_Repo.SearchEmployeeAsync(strKeyword);
     }

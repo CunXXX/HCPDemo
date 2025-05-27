@@ -3,7 +3,7 @@
 @using Microsoft.AspNetCore.Components.WebAssembly.Hosting
 
 <div class="container">
-    <h3>資產移轉系統</h3>
+    <h3>資產管理系統</h3>
 
     <div class="search-section">
         <label>保管人查詢：</label>
@@ -28,7 +28,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th><input type="checkbox" checked="@IsAllSelected" @onchange="ToggleSelectAll" /></th>
+                        <th><input type="checkbox" checked="@m_bIsAllSelected" @onchange="ToggleSelectAll" /></th>
                         <th>資產編號</th>
                         <th>資產名稱</th>
                         <th>數量</th>
@@ -69,13 +69,13 @@
             </table>
         </div>
 
-        @if (m_TotalCount > m_PageSize)
+        @if (m_iTotalCount > m_iPageSize)
         {
             <div class="pagination">
                 <div class="pagination-controls">
-                    <button class="btn-small" @onclick="PreviousPage" disabled="@(!CanPrevious)">上一頁</button>
-                    <span>頁次：@m_PageIndex / @TotalPages</span>
-                    <button class="btn-small" @onclick="NextPage" disabled="@(!CanNext)">下一頁</button>
+                    <button class="btn-small" @onclick="PreviousPage" disabled="@(!m_bCanPrevious)">上一頁</button>
+                    <span>頁次：@m_iPageIndex / @m_iTotalPages</span>
+                    <button class="btn-small" @onclick="NextPage" disabled="@(!m_bCanNext)">下一頁</button>
                 </div>
             </div>
         }

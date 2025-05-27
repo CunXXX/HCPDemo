@@ -5,7 +5,7 @@ namespace FrontEnd.Pages;
 public partial class Document
 {
     private int m_iCurrentSlide = 1;
-    private int m_iTotalSlides = 9;
+    private int m_iTotalSlides = 6;
 
     private bool m_bCanPrevious => m_iCurrentSlide > 1;
     private bool m_bCanNext => m_iCurrentSlide < m_iTotalSlides;

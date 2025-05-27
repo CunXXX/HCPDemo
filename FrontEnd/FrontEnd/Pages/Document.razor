@@ -1,20 +1,18 @@
 ﻿@page "/document"
 @inject IJSRuntime JS
 
-
-
 <div class="doc-container">
     <a href="/asset-transfer" class="back-to-app">← 回到系統</a>
 
     <!-- Slide 0: 標題頁 -->
     <div class="slide active">
-        <div class="logo">關於系統</div>
-        <div class="slide-number">1 / 9</div>
+        <div class="logo">系統架構展示</div>
+        <div class="slide-number">1 / 6</div>
         <div style="text-align: center; margin-top: 100px;">
             <h1 style="font-size: 3.5rem; color: #667eea; margin-bottom: 20px;">資產移轉系統</h1>
-            <h2 style="font-size: 1.8rem; color: #666; margin-bottom: 40px;">Asset Transfer Management System</h2>
+            <h2 style="font-size: 1.8rem; color: #666; margin-bottom: 40px;">Asset Transfer System</h2>
             <div style="font-size: 1.3rem; color: #888; margin-bottom: 60px;">
-                保管資產的批次移交功能實作
+                展示 Blazor + .NET Core 的系統設計與開發實作
             </div>
             <div class="tech-stack" style="justify-content: center; gap: 60px;">
                 <div class="tech-item">
@@ -36,23 +34,21 @@
         </div>
     </div>
 
-    <!-- Slide 1: 系統架構流程圖 -->
+    <!-- Slide 1: 系統資料流程 -->
     <div class="slide">
-        <div class="logo">關於系統</div>
-        <div class="slide-number">2 / 9</div> <!-- 依照實際總頁數自動調整 -->
+        <div class="logo">架構圖解</div>
+        <div class="slide-number">2 / 6</div>
         <div class="slide-header">
-            <h1 class="slide-title">系統資料流程圖</h1>
-            <p class="slide-subtitle">System Flow Diagram</p>
+            <h1 class="slide-title">系統資料流程</h1>
+            <p class="slide-subtitle">From UI to DB</p>
         </div>
-
         <section style="margin-top: 40px;">
-            <h3 style="text-align: center; color: #667eea; font-size: 1.6rem; margin-bottom: 30px;">📊 從瀏覽器到資料庫的完整流程</h3>
-
+            <h3 style="text-align: center; color: #667eea; font-size: 1.6rem; margin-bottom: 30px;">📊 資料流向說明</h3>
             <div class="arch-diagram">
                 <div style="display: flex; flex-direction: column; align-items: center;">
-                    <div class="arch-box">🖥️ 使用者瀏覽器</div>
+                    <div class="arch-box">🖥️ 瀏覽器</div>
                     <div class="arch-arrow">↓</div>
-                    <div class="arch-box">⚡ Blazor WebAssembly</div>
+                    <div class="arch-box">⚡ Blazor WASM</div>
                     <div class="arch-arrow">↓</div>
                     <div class="arch-box">🌐 ASP.NET Core API</div>
                     <div class="arch-arrow">↓</div>
@@ -63,451 +59,117 @@
                     <div class="arch-box">🗄️ SQL Server</div>
                 </div>
             </div>
-
             <div style="text-align: center; margin-top: 40px; color: #555; font-size: 1rem;">
-                使用者透過瀏覽器操作 Blazor WASM 應用，呼叫 ASP.NET Core API，由 Service 處理邏輯後交由 Repository 使用 Dapper 存取 SQL Server 資料庫。
+                使用者指令由前端發起，透過 API 層進入服務邏輯，最終進行資料庫操作。
             </div>
         </section>
     </div>
 
-
-    <!-- Slide 2: 系統概述 -->
+    <!-- Slide 2: 額外強化功能 -->
     <div class="slide">
-        <div class="logo">關於系統</div>
-        <div class="slide-number">3 / 9</div>
+        <div class="logo">補充功能</div>
+        <div class="slide-number">3 / 6</div>
         <div class="slide-header">
-            <h1 class="slide-title">系統概述</h1>
-            <p class="slide-subtitle">System Overview</p>
+            <h1 class="slide-title">額外強化實作</h1>
+            <p class="slide-subtitle">Beyond the Specs</p>
         </div>
-
         <div class="content-grid">
             <div class="feature-card">
-                <h3 class="feature-title">🎯 業務需求</h3>
+                <h3 class="feature-title">模糊搜尋</h3>
                 <ul class="feature-list">
-                    <li>員工轉調部門時的資產移交</li>
-                    <li>批次處理多項資產轉移</li>
-                    <li>支援一對多的移轉模式</li>
-                    <li>完整的移轉確認流程</li>
+                    <li>支援姓名、工號即時比對</li>
+                    <li>下拉選單即時顯示</li>
                 </ul>
             </div>
-
             <div class="feature-card">
-                <h3 class="feature-title">⚙️ 核心功能</h3>
+                <h3 class="feature-title">資料分頁</h3>
                 <ul class="feature-list">
-                    <li>保管人資產查詢</li>
-                    <li>接收人指定與驗證</li>
-                    <li>Excel確認單匯出</li>
-                    <li>批次資產移轉執行</li>
+                    <li>查詢結果支援分頁顯示</li>
+                    <li>分頁狀態與 UI 同步控制</li>
                 </ul>
             </div>
         </div>
-
-        <div class="flow-diagram">
-            <div class="flow-step">
-                <div style="font-size: 2rem; margin-bottom: 5px;">🔍</div>
-                <div>查詢保管人</div>
-                <div style="font-size: 0.8rem; color: #666;">資產清單</div>
-            </div>
-            <div class="flow-arrow">→</div>
-            <div class="flow-step">
-                <div style="font-size: 2rem; margin-bottom: 5px;">📋</div>
-                <div>匯出確認單</div>
-                <div style="font-size: 0.8rem; color: #666;">Excel文件</div>
-            </div>
-            <div class="flow-arrow">→</div>
-            <div class="flow-step">
-                <div style="font-size: 2rem; margin-bottom: 5px;">✍️</div>
-                <div>實體交接</div>
-                <div style="font-size: 0.8rem; color: #666;">簽名確認</div>
-            </div>
-            <div class="flow-arrow">→</div>
-            <div class="flow-step">
-                <div style="font-size: 2rem; margin-bottom: 5px;">💾</div>
-                <div>系統更新</div>
-                <div style="font-size: 0.8rem; color: #666;">移轉完成</div>
-            </div>
-        </div>
     </div>
 
-    <!-- Slide 3: 技術架構 -->
+    <!-- Slide 3: 技術架構亮點 -->
     <div class="slide">
-        <div class="logo">關於系統</div>
-        <div class="slide-number">4 / 9</div>
+        <div class="logo">技術架構</div>
+        <div class="slide-number">4 / 6</div>
         <div class="slide-header">
-            <h1 class="slide-title">技術架構</h1>
-            <p class="slide-subtitle">Technical Architecture</p>
+            <h1 class="slide-title">架構亮點</h1>
+            <p class="slide-subtitle">Key Implementation</p>
         </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; margin: 40px 0;">
-            <div class="feature-card" style="text-align: center;">
-                <h3 class="feature-title">🌐 前端層</h3>
-                <div style="margin: 20px 0;">
-                    <div style="font-size: 1.5rem; margin-bottom: 10px;">⚡ Blazor WebAssembly</div>
-                    <ul class="feature-list" style="text-align: left;">
-                        <li>響應式設計</li>
-                        <li>SPA用戶體驗</li>
-                        <li>自動完成功能</li>
-                        <li>即時驗證回饋</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="feature-card" style="text-align: center;">
-                <h3 class="feature-title">🔧 後端層</h3>
-                <div style="margin: 20px 0;">
-                    <div style="font-size: 1.5rem; margin-bottom: 10px;">🚀 ASP.NET Core</div>
-                    <ul class="feature-list" style="text-align: left;">
-                        <li>RESTful API</li>
-                        <li>依賴注入</li>
-                        <li>異常處理</li>
-                        <li>跨域支援</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="feature-card" style="text-align: center;">
-                <h3 class="feature-title">🗄️ 資料層</h3>
-                <div style="margin: 20px 0;">
-                    <div style="font-size: 1.5rem; margin-bottom: 10px;">💽 SQL Server</div>
-                    <ul class="feature-list" style="text-align: left;">
-                        <li>正規化設計</li>
-                        <li>交易管理</li>
-                        <li>索引優化</li>
-                        <li>參數化查詢</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="code-block">
-            <span style="color: #81A1C1;">// 核心API端點</span>
-            <span style="color: #88C0D0;">GET</span>  /api/v1/HCP/SearchEmployee      <span style="color: #616E88;">// 員工搜尋</span>
-            <span style="color: #88C0D0;">POST</span> /api/v1/HCP/SearchAssetsByUser  <span style="color: #616E88;">// 資產查詢</span>
-            <span style="color: #88C0D0;">POST</span> /api/v1/HCP/TransferAssets      <span style="color: #616E88;">// 資產移轉</span>
-            <span style="color: #88C0D0;">GET</span>  /api/v1/HCP/ExportAssetTransfer <span style="color: #616E88;">// Excel匯出</span>
-        </div>
-    </div>
-
-    <!-- Slide 4: 核心功能展示 -->
-    <div class="slide">
-        <div class="logo">關於系統</div>
-        <div class="slide-number">5 / 9</div>
-        <div class="slide-header">
-            <h1 class="slide-title">核心功能展示</h1>
-            <p class="slide-subtitle">Core Features Demo</p>
-        </div>
-
-        <div class="demo-section">
-            <h3 style="color: #667eea; margin-bottom: 15px;">🎯 功能展示重點</h3>
-            <p>現場將展示完整的資產移轉流程，包含以下關鍵功能：</p>
-        </div>
-
         <div class="content-grid">
             <div class="feature-card">
-                <h3 class="feature-title">1️⃣ 智能搜尋</h3>
+                <h3 class="feature-title">前端設計</h3>
                 <ul class="feature-list">
-                    <li><span class="highlight-text">模糊查詢</span>：支援姓名、工號搜尋</li>
-                    <li><span class="highlight-text">自動完成</span>：HTML5 datalist實作</li>
-                    <li><span class="highlight-text">即時回饋</span>：動態載入建議清單</li>
+                    <li>單頁整合多功能操作</li>
+                    <li>動態欄位綁定與 UI 即時更新</li>
                 </ul>
             </div>
-
             <div class="feature-card">
-                <h3 class="feature-title">2️⃣ 資產管理</h3>
+                <h3 class="feature-title">後端實作</h3>
                 <ul class="feature-list">
-                    <li><span class="highlight-text">預設全選</span>：符合需求規格</li>
-                    <li><span class="highlight-text">分頁查詢</span>：支援大量資料</li>
-                    <li><span class="highlight-text">狀態保持</span>：跨頁面資料同步</li>
-                </ul>
-            </div>
-
-            <div class="feature-card">
-                <h3 class="feature-title">3️⃣ 接收人指定</h3>
-                <ul class="feature-list">
-                    <li><span class="highlight-text">一對多模式</span>：不同資產不同接收人</li>
-                    <li><span class="highlight-text">即時驗證</span>：確保員工存在性</li>
-                    <li><span class="highlight-text">視覺回饋</span>：未完成項目高亮提示</li>
-                </ul>
-            </div>
-
-            <div class="feature-card">
-                <h3 class="feature-title">4️⃣ Excel匯出</h3>
-                <ul class="feature-list">
-                    <li><span class="highlight-text">標準格式</span>：符合行政流程需求</li>
-                    <li><span class="highlight-text">簽名欄位</span>：支援實體交接</li>
-                    <li><span class="highlight-text">即時下載</span>：前端JavaScript處理</li>
+                    <li>RESTful API 分層設計</li>
+                    <li>Service 與 Repository 解耦</li>
+                    <li>參數化查詢搭配 Dapper</li>
                 </ul>
             </div>
         </div>
     </div>
 
-    <!-- Slide 5: 使用者介面展示 -->
+    <!-- Slide 4: 安全與驗證 -->
     <div class="slide">
-        <div class="logo">關於系統</div>
-        <div class="slide-number">6 / 9</div>
+        <div class="logo">防呆與驗證</div>
+        <div class="slide-number">5 / 6</div>
         <div class="slide-header">
-            <h1 class="slide-title">使用者介面設計</h1>
-            <p class="slide-subtitle">User Interface Design</p>
+            <h1 class="slide-title">驗證與資料保護</h1>
+            <p class="slide-subtitle">Validation & Protection</p>
         </div>
-
-        <div style="background: #f8f9ff; padding: 30px; border-radius: 15px; margin: 20px 0;">
-            <h3 style="color: #667eea; text-align: center; margin-bottom: 25px;">📱 響應式設計特色</h3>
-
-            <div class="content-grid">
-                <div>
-                    <h4 style="color: #667eea; margin-bottom: 15px;">🎨 設計理念</h4>
-                    <ul class="feature-list">
-                        <li>簡潔直觀的操作介面</li>
-                        <li>符合使用者習慣的交互設計</li>
-                        <li>清晰的視覺層次和資訊架構</li>
-                        <li>友善的錯誤提示和引導</li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 style="color: #667eea; margin-bottom: 15px;">⚡ 使用者體驗</h4>
-                    <ul class="feature-list">
-                        <li>快速的頁面載入和回應</li>
-                        <li>流暢的動畫和轉場效果</li>
-                        <li>智能的表單驗證和提示</li>
-                        <li>支援鍵盤快捷操作</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 25px; border-radius: 15px; text-align: center;">
-            <h3 style="margin-bottom: 15px;">🖥️ 現場Demo展示內容</h3>
-            <div style="display: flex; justify-content: space-around; margin-top: 20px;">
-                <div>✅ 員工搜尋功能</div>
-                <div>✅ 資產查詢與選擇</div>
-                <div>✅ 接收人指定</div>
-                <div>✅ Excel匯出功能</div>
-                <div>✅ 移轉執行流程</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slide 6: 檢核控管機制 -->
-    <div class="slide">
-        <div class="logo">關於系統</div>
-        <div class="slide-number">7 / 9</div>
-        <div class="slide-header">
-            <h1 class="slide-title">檢核控管機制</h1>
-            <p class="slide-subtitle">Validation & Control Mechanisms</p>
-        </div>
-
-        <div class="validation-grid">
-            <div class="validation-card">
-                <h3 style="margin-bottom: 15px;">🔒 資料驗證</h3>
-                <ul style="list-style: none; text-align: left;">
-                    <li>✓ 必填欄位檢查</li>
-                    <li>✓ 員工存在性驗證</li>
-                    <li>✓ 重複提交防護</li>
-                    <li>✓ 前後端雙重驗證</li>
-                </ul>
-            </div>
-
-            <div class="validation-card" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
-                <h3 style="margin-bottom: 15px;">🛡️ 系統安全</h3>
-                <ul style="list-style: none; text-align: left;">
-                    <li>✓ SQL注入防護</li>
-                    <li>✓ 參數化查詢</li>
-                    <li>✓ 跨域請求控制</li>
-                    <li>✓ 異常處理機制</li>
-                </ul>
-            </div>
-
-            <div class="validation-card" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: #333;">
-                <h3 style="margin-bottom: 15px;">⚙️ 業務邏輯</h3>
-                <ul style="list-style: none; text-align: left;">
-                    <li>✓ 資產狀態檢查</li>
-                    <li>✓ 保管人有效性驗證</li>
-                    <li>✓ 移轉權限控制</li>
-                    <li>✓ 交易一致性保證</li>
-                </ul>
-            </div>
-
-            <div class="validation-card" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); color: #333;">
-                <h3 style="margin-bottom: 15px;">📊 操作稽核</h3>
-                <ul style="list-style: none; text-align: left;">
-                    <li>✓ 操作日誌記錄</li>
-                    <li>✓ 移轉歷史追蹤</li>
-                    <li>✓ 錯誤處理回滾</li>
-                    <li>✓ 資料變更監控</li>
-                </ul>
-            </div>
-        </div>
-
-        <div style="background: #f0f8ff; padding: 25px; border-radius: 15px; margin-top: 30px;">
-            <h3 style="color: #667eea; margin-bottom: 15px;">🔧 建議增強控管機制</h3>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                <div>
-                    <h4 style="color: #e74c3c;">進階業務檢核</h4>
-                    <ul style="font-size: 0.9rem; margin-top: 10px;">
-                        <li>資產特殊狀態檢查（維修中、報廢等）</li>
-                        <li>接收人資格與權限驗證</li>
-                        <li>資產數量限制控管</li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 style="color: #e74c3c;">系統效能優化</h4>
-                    <ul style="font-size: 0.9rem; margin-top: 10px;">
-                        <li>快取機制減少查詢負載</li>
-                        <li>批次處理提升效率</li>
-                        <li>索引優化加速查詢</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Slide 7: 技術亮點與創新 -->
-    <div class="slide">
-        <div class="logo">關於系統</div>
-        <div class="slide-number">8 / 9</div>
-        <div class="slide-header">
-            <h1 class="slide-title">技術亮點與創新</h1>
-            <p class="slide-subtitle">Technical Highlights & Innovation</p>
-        </div>
-
         <div class="content-grid">
             <div class="feature-card">
-                <h3 class="feature-title">🚀 前端技術亮點</h3>
+                <h3 class="feature-title">資料正確性驗證</h3>
                 <ul class="feature-list">
-                    <li><span class="highlight-text">Blazor WebAssembly</span>：C#全端開發</li>
-                    <li><span class="highlight-text">狀態管理</span>：跨頁面資料同步</li>
-                    <li><span class="highlight-text">響應式設計</span>：支援多螢幕尺寸</li>
-                    <li><span class="highlight-text">使用者體驗</span>：流暢的交互設計</li>
+                    <li>空值、格式、邏輯驗證</li>
+                    <li>接收人合法性確認</li>
                 </ul>
             </div>
-
             <div class="feature-card">
-                <h3 class="feature-title">⚡ 後端架構優勢</h3>
+                <h3 class="feature-title">交易與安全</h3>
                 <ul class="feature-list">
-                    <li><span class="highlight-text">Clean Architecture</span>：分層架構設計</li>
-                    <li><span class="highlight-text">依賴注入</span>：鬆耦合模組化</li>
-                    <li><span class="highlight-text">Repository模式</span>：資料存取抽象</li>
-                    <li><span class="highlight-text">交易管理</span>：確保資料一致性</li>
+                    <li>交易機制確保資料一致</li>
+                    <li>Rollback 與錯誤處理</li>
                 </ul>
             </div>
-        </div>
-
-        <div style="background: #f8f9ff; padding: 25px; border-radius: 15px; margin: 20px 0;">
-            <h3 style="color: #667eea; margin-bottom: 20px;">💡 創新特色</h3>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
-                <div style="text-align: center; padding: 15px;">
-                    <div style="font-size: 2rem; margin-bottom: 10px;">🎯</div>
-                    <h4>智能化操作</h4>
-                    <p style="font-size: 0.9rem; color: #666;">模組化設計、清晰的程式架構</p>
-                </div>
-                <div style="text-align: center; padding: 15px;">
-                    <div style="font-size: 2rem; margin-bottom: 10px;">🛡️</div>
-                    <h4>安全可靠</h4>
-                    <p style="font-size: 0.9rem; color: #666;">多層驗證、異常處理、交易回滾</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="code-block">
-            <span style="color: #81A1C1;">// 核心技術實作範例</span>
-            <span style="color: #D08770;">public async Task</span>&lt;<span style="color: #8FBCBB;">bool</span>&gt; <span style="color: #88C0D0;">TransferAssetsAsync</span>(<span style="color: #D08770;">List</span>&lt;<span style="color: #8FBCBB;">TransferItem</span>&gt; items)
-            {
-            <span style="color: #81A1C1;">// 交易管理確保資料一致性</span>
-            <span style="color: #D08770;">using var</span> transaction = <span style="color: #D08770;">await</span> _db.<span style="color: #88C0D0;">BeginTransactionAsync</span>();
-            <span style="color: #D08770;">try</span> {
-            <span style="color: #81A1C1;">// 批次更新資產保管人</span>
-            <span style="color: #D08770;">await</span> <span style="color: #88C0D0;">UpdateAssetsOwnerAsync</span>(items);
-            <span style="color: #D08770;">await</span> transaction.<span style="color: #88C0D0;">CommitAsync</span>();
-            } <span style="color: #D08770;">catch</span> {
-            <span style="color: #D08770;">await</span> transaction.<span style="color: #88C0D0;">RollbackAsync</span>();
-            <span style="color: #D08770;">throw</span>;
-            }
-            }
         </div>
     </div>
 
-    <!-- Slide 8: 總結與展望 -->
+    <!-- Slide 5: 結語與收尾 -->
     <div class="slide">
-        <div class="logo">關於系統</div>
-        <div class="slide-number">9 / 9</div>
+        <div class="logo">結語</div>
+        <div class="slide-number">6 / 6</div>
         <div class="slide-header">
-            <h1 class="slide-title">總結與展望</h1>
-            <p class="slide-subtitle">Summary & Future Roadmap</p>
+            <h1 class="slide-title">系統展示總結</h1>
+            <p class="slide-subtitle">Conclusion</p>
         </div>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 30px;">
-            <div>
-                <h3 style="color: #667eea; margin-bottom: 20px;">✅ 完成功能清單</h3>
-                <div class="feature-card" style="background: #e8f5e8;">
-                    <ul class="feature-list">
-                        <li>員工搜尋與自動完成</li>
-                        <li>資產查詢與分頁展示</li>
-                        <li>預設全選與手動選擇</li>
-                        <li>接收人指定與驗證</li>
-                        <li>Excel確認單匯出</li>
-                        <li>批次資產移轉執行</li>
-                        <li>完整的檢核控管機制</li>
-                        <li>響應式使用者介面</li>
-                    </ul>
-                </div>
+        <div class="content-grid">
+            <div class="feature-card">
+                <h3 class="feature-title">技術成果</h3>
+                <ul class="feature-list">
+                    <li>獨立開發，完整前後端流程</li>
+                    <li>結構清晰，模組化易擴充</li>
+                </ul>
             </div>
-
-            <div>
-                <h3 style="color: #667eea; margin-bottom: 20px;">🚀 未來改進方向</h3>
-                <div class="feature-card" style="background: #fff3e0;">
-                    <h4 style="color: #ff9800; margin-bottom: 10px;">短期目標 (1-2週)</h4>
-                    <ul style="font-size: 0.9rem; margin-bottom: 15px;">
-                        <li>使用者體驗優化</li>
-                        <li>性能監控與優化</li>
-                        <li>單元測試覆蓋</li>
-                    </ul>
-
-                    <h4 style="color: #ff9800; margin-bottom: 10px;">中期目標 (1-2月)</h4>
-                    <ul style="font-size: 0.9rem; margin-bottom: 15px;">
-                        <li>系統整合（人事、財務）</li>
-                        <li>報表功能擴展</li>
-                        <li>移動端支援</li>
-                    </ul>
-
-                    <h4 style="color: #ff9800; margin-bottom: 10px;">長期目標 (3-6月)</h4>
-                    <ul style="font-size: 0.9rem;">
-                        <li>AI智能推薦</li>
-                        <li>微服務架構</li>
-                        <li>雲端部署</li>
-                    </ul>
-                </div>
+            <div class="feature-card">
+                <h3 class="feature-title">未來強化方向</h3>
+                <ul class="feature-list">
+                    <li>加入測試與日誌記錄</li>
+                    <li>考慮整合單位驗證權限</li>
+                </ul>
             </div>
         </div>
-
-        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 15px; text-align: center;">
-            <h3 style="margin-bottom: 20px; font-size: 1.8rem;">🎯 項目成果總結</h3>
-            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin: 25px 0;">
-                <div>
-                    <div style="font-size: 2.5rem; margin-bottom: 5px;">100%</div>
-                    <div style="font-size: 0.9rem;">需求實現度</div>
-                </div>
-                <div>
-                    <div style="font-size: 2.5rem; margin-bottom: 5px;">8+</div>
-                    <div style="font-size: 0.9rem;">核心功能</div>
-                </div>
-                <div>
-                    <div style="font-size: 2.5rem; margin-bottom: 5px;">3</div>
-                    <div style="font-size: 0.9rem;">技術層次</div>
-                </div>
-                <div>
-                    <div style="font-size: 2.5rem; margin-bottom: 5px;">多層</div>
-                    <div style="font-size: 0.9rem;">安全防護</div>
-                </div>
-            </div>
-
-            <div style="margin-top: 30px; font-size: 1.2rem;">
-                <strong>✨ 感謝您的聆聽，現在開始系統展示 ✨</strong>
-            </div>
-
-            <div style="margin-top: 20px; font-size: 1rem; opacity: 0.9;">
-                準備展示完整的資產移轉流程操作
-            </div>
+        <div style="text-align: center; margin-top: 40px;">
+            <strong>✨ 感謝聆聽，接下來進行系統展示 ✨</strong>
         </div>
     </div>
 </div>
@@ -517,4 +179,3 @@
     <button class="nav-btn" @onclick="NextSlide" disabled="@(!m_bCanNext)">下一頁 ▶</button>
     <button class="nav-btn" @onclick="() => GoToSlide(1)">回到首頁</button>
 </div>
-

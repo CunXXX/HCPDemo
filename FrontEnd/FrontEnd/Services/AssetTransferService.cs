@@ -5,30 +5,30 @@ namespace FrontEnd.Services;
 
 public class AssetTransferService
 {
-    private readonly HttpClient _httpClient;
-    private readonly AppSettingsService _appSettings;
+    private readonly HttpClient m_HttpClient;
+    private readonly AppSettingsService m_AppSettings;
 
     public AssetTransferService(HttpClient httpClient, AppSettingsService appSettings)
     {
-        _httpClient = httpClient;
-        _appSettings = appSettings;
+        m_HttpClient = httpClient;
+        m_AppSettings = appSettings;
     }
 
     /// <summary>
     /// 搜尋員工建議清單
     /// </summary>
-    /// <param name="keyword">關鍵字</param>
+    /// <param name="strKeyword">關鍵字</param>
     /// <returns>員工建議清單</returns>
-    public async Task<List<EmployeeSuggest>> SearchEmployees(string keyword)
+    public async Task<List<EmployeeSuggest>> SearchEmployees(string strKeyword)
     {
-        if (string.IsNullOrWhiteSpace(keyword))
+        if (string.IsNullOrWhiteSpace(strKeyword))
             return new List<EmployeeSuggest>();
 
         try
         {
-            var apiUrl = _appSettings.Get<string>("ApiBaseUrl");
-            var result = await _httpClient.GetFromJsonAsync<List<EmployeeSuggest>>(
-                $"{apiUrl}/api/v1/HCP/SearchEmployee?Keyword={keyword}"
+            var _strApiUrl = m_AppSettings.Get<string>("ApiBaseUrl");
+            var result = await m_HttpClient.GetFromJsonAsync<List<EmployeeSuggest>>(
+                $"{_strApiUrl}/api/v1/HCP/SearchEmployee?Keyword={strKeyword}"
             );
 
             return result ?? new List<EmployeeSuggest>();
@@ -49,8 +49,8 @@ public class AssetTransferService
     {
         try
         {
-            var apiUrl = _appSettings.Get<string>("ApiBaseUrl");
-            var response = await _httpClient.PostAsJsonAsync($"{apiUrl}/api/v1/HCP/SearchAssetsByUser", request);
+            var _strApiUrl = m_AppSettings.Get<string>("ApiBaseUrl");
+            var response = await m_HttpClient.PostAsJsonAsync($"{_strApiUrl}/api/v1/HCP/SearchAssetsByUser", request);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -87,8 +87,8 @@ public class AssetTransferService
                 return (false, "請至少選擇一筆要移轉的資產！");
             }
 
-            var apiUrl = _appSettings.Get<string>("ApiBaseUrl");
-            var response = await _httpClient.PostAsJsonAsync($"{apiUrl}/api/v1/HCP/TransferAssets", transferItems);
+            var _strApiUrl = m_AppSettings.Get<string>("ApiBaseUrl");
+            var response = await m_HttpClient.PostAsJsonAsync($"{_strApiUrl}/api/v1/HCP/TransferAssets", transferItems);
 
             if (response.IsSuccessStatusCode)
             {
