@@ -5,12 +5,12 @@
 <div class="container">
     <h3>資產移轉系統</h3>
 
-    <div>
+    <div class="search-section">
         <label>保管人查詢：</label>
         <input list="empList"
-        @bind="m_strKeyword"
-        @oninput="OnKeywordInput"
-        placeholder="輸入姓名或工號" />
+               @bind="m_strKeyword"
+               @oninput="OnKeywordInput"
+               placeholder="輸入姓名或工號" />
         <datalist id="empList">
             @foreach (var emp in m_lstEmployeeSuggest)
             {
@@ -24,49 +24,50 @@
 
     @if (m_lstAssets?.Count > 0)
     {
-        <table>
-            <thead>
-                <tr>
-                    <th><input type="checkbox" @onchange="ToggleSelectAll" /></th>
-                    <th>名稱</th>
-                    <th>描述</th>
-                    <th>分類</th>
-                    <th>數量</th>
-                    <th>地點</th>
-                    <th>接收人</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var asset in m_lstAssets)
-                {
+        <div class="table-container">
+            <table>
+                <thead>
                     <tr>
-                        <td>
-                            <input type="checkbox"
-                            checked="@asset.IsSelected"
-                            @onchange="(e) => OnAssetCheckboxChanged(asset.AssetId, (bool)e.Value!)" />
-                        </td>
-                        <td>@asset.AssetNumber</td>
-                        <td>@asset.AssetName</td>
-                        <td>@asset.Spec</td>
-                        <td>@asset.Unit</td>
-                        <td>@asset.Location</td>
-                        <td>
-                            <input list="receiverList_@asset.AssetId"
-                            @bind="asset.ReceiverKeyword"
-                            @oninput="(e) => OnReceiverInput(asset, e.Value?.ToString())"
-                            placeholder="請輸入姓名或工號" />
-
-                            <datalist id="receiverList_@asset.AssetId">
-                                @foreach (var emp in asset.ReceiverSuggests)
-                                {
-                                    <option value="@emp.DisplayName" />
-                                }
-                            </datalist>
-                        </td>
+                        <th><input type="checkbox" @onchange="ToggleSelectAll" /></th>
+                        <th>名稱</th>
+                        <th>描述</th>
+                        <th>分類</th>
+                        <th>數量</th>
+                        <th>地點</th>
+                        <th>接收人</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var asset in m_lstAssets)
+                    {
+                        <tr>
+                            <td>
+                                <input type="checkbox"
+                                       checked="@asset.IsSelected"
+                                       @onchange="(e) => OnAssetCheckboxChanged(asset.AssetId, (bool)e.Value!)" />
+                            </td>
+                            <td>@asset.AssetNumber</td>
+                            <td>@asset.AssetName</td>
+                            <td>@asset.Spec</td>
+                            <td>@asset.Unit</td>
+                            <td>@asset.Location</td>
+                            <td>
+                                <input list="receiverList_@asset.AssetId"
+                                       @bind="asset.ReceiverKeyword"
+                                       @oninput="(e) => OnReceiverInput(asset, e.Value?.ToString())"
+                                       placeholder="請輸入姓名或工號" />
+                                <datalist id="receiverList_@asset.AssetId">
+                                    @foreach (var emp in asset.ReceiverSuggests)
+                                    {
+                                        <option value="@emp.DisplayName" />
+                                    }
+                                </datalist>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
 
         @if (m_TotalCount > m_PageSize)
         {
@@ -78,7 +79,5 @@
                 </div>
             </div>
         }
-
     }
 </div>
-

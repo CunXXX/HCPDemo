@@ -22,7 +22,7 @@ public partial class AssetTransfer
     private string m_strKeyword = string.Empty;
 
     private int m_PageIndex = 1;
-    private int m_PageSize = 1;
+    private int m_PageSize = 5;
     private int m_TotalCount = 0;
     private int TotalPages => (int)Math.Ceiling((double)m_TotalCount / m_PageSize);
 
