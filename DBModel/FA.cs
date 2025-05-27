@@ -16,77 +16,59 @@ public class FA
     }
 
     /// <summary>
-    /// 資產編號 (主鍵)
+    /// 資產編號 
     /// </summary>
-    [Key]
-    [StringLength(20)]
-    [Required]
     public string FACode { get; set; } = string.Empty;
 
     /// <summary>
     /// 資產名稱
     /// </summary>
-    [StringLength(30)]
-    [Required]
     public string FAName { get; set; } = string.Empty;
 
     /// <summary>
     /// 資產規格
     /// </summary>
-    [StringLength(30)]
     public string FASpec { get; set; } = string.Empty;
 
     /// <summary>
     /// 資產類別
     /// </summary>
-    [StringLength(10)]
-    [Required]
     public string Catego { get; set; } = string.Empty;
 
     /// <summary>
     /// 資產型態
     /// </summary>
-    [Required]
-    public int FAType { get; set; }
+    public int FAType { get; set; } = 0;
 
     /// <summary>
     /// 取得日期 (使用整數格式存儲，如: 20240101)
     /// </summary>
-    [Required]
-    public int BuyDate { get; set; }
+    public int BuyDate { get; set; } = 0;
 
     /// <summary>
     /// 廠商代號
     /// </summary>
-    [StringLength(10)]
-    public string SupplierID { get; set; } = "";
+    public string SupplierID { get; set; } = string.Empty;
 
     /// <summary>
     /// 數量
     /// </summary>
-    [Required]
-    public int Qty { get; set; }
+    public int Qty { get; set; } = 0;
 
     /// <summary>
     /// 單位
     /// </summary>
-    [StringLength(10)]
-    [Required]
-    public string Unit { get; set; }
+    public string Unit { get; set; } = string.Empty;
 
     /// <summary>
     /// 經辦人
     /// </summary>
-    [StringLength(10)]
-    [Required]
-    public string Recorder { get; set; }
+    public string Recorder { get; set; } = string.Empty;
 
     /// <summary>
     /// 部門代號
     /// </summary>
-    [StringLength(10)]
-    [Required]
-    public string DeptCode { get; set; }
+    public string DeptCode { get; set; } = string.Empty;
 
     /// <summary>
     /// 狀態 (預設: 0)
@@ -96,17 +78,15 @@ public class FA
     /// <summary>
     /// 主項備註
     /// </summary>
-    [StringLength(500)]
     public string MainNote { get; set; } = "";
 
     /// <summary>
-    /// 最後修改日 (預設: 系統當前時間)
+    /// 最後修改日 
     /// </summary>
     public DateTime FixDate { get; set; } = DateTime.Now;
 
     /// <summary>
     /// 最後修改者
     /// </summary>
-    [StringLength(10)]
     public string FixBy { get; set; } = "";
 }

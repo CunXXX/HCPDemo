@@ -19,7 +19,7 @@ public class AssetTransferService
     /// </summary>
     /// <param name="keyword">關鍵字</param>
     /// <returns>員工建議清單</returns>
-    public async Task<List<EmployeeSuggest>> SearchEmployeesAsync(string keyword)
+    public async Task<List<EmployeeSuggest>> SearchEmployees(string keyword)
     {
         if (string.IsNullOrWhiteSpace(keyword))
             return new List<EmployeeSuggest>();
@@ -28,7 +28,7 @@ public class AssetTransferService
         {
             var apiUrl = _appSettings.Get<string>("ApiBaseUrl");
             var result = await _httpClient.GetFromJsonAsync<List<EmployeeSuggest>>(
-                $"{apiUrl}/api/v1/HCP/SearchEmployee?strKeyword={keyword}"
+                $"{apiUrl}/api/v1/HCP/SearchEmployee?Keyword={keyword}"
             );
 
             return result ?? new List<EmployeeSuggest>();
@@ -45,7 +45,7 @@ public class AssetTransferService
     /// </summary>
     /// <param name="request">查詢請求</param>
     /// <returns>分頁資產結果</returns>
-    public async Task<(bool Success, PagedResult<AssetViewModel>? Result, string ErrorMessage)> SearchAssetsByUserAsync(AssetQueryRequest request)
+    public async Task<(bool Success, PagedResult<AssetViewModel>? Result, string ErrorMessage)> SearchAssetsByUser(AssetQueryRequest request)
     {
         try
         {
@@ -78,7 +78,7 @@ public class AssetTransferService
     /// </summary>
     /// <param name="transferItems">移轉項目清單</param>
     /// <returns>移轉結果</returns>
-    public async Task<(bool Success, string Message)> SubmitTransfersAsync(List<TransferItem> transferItems)
+    public async Task<(bool Success, string Message)> SubmitTransfers(List<TransferItem> transferItems)
     {
         try
         {

@@ -84,7 +84,7 @@ public partial class AssetTransfer
         if (m_lstEmployeeSuggest.Any(x => x.DisplayName == keyword))
             return;
 
-        m_lstEmployeeSuggest = await m_AssetTransferService.SearchEmployeesAsync(keyword);
+        m_lstEmployeeSuggest = await m_AssetTransferService.SearchEmployees(keyword);
     }
 
     /// <summary>
@@ -104,7 +104,7 @@ public partial class AssetTransfer
             parsedKeyword = keyword.Split(" - ")[0];
         }
 
-        var employees = await m_AssetTransferService.SearchEmployeesAsync(parsedKeyword);
+        var employees = await m_AssetTransferService.SearchEmployees(parsedKeyword);
         assetModel.ReceiverSuggests = employees;
 
         // 若使用者選了 DisplayName，找出對應員工
@@ -161,7 +161,7 @@ public partial class AssetTransfer
             PageSize = m_PageSize
         };
 
-        var (success, result, errorMessage) = await m_AssetTransferService.SearchAssetsByUserAsync(request);
+        var (success, result, errorMessage) = await m_AssetTransferService.SearchAssetsByUser(request);
 
         if (!success)
         {
@@ -273,6 +273,10 @@ public partial class AssetTransfer
 
     #region 動作相關
 
+    /// <summary>
+    /// 匯出 Excel 檔案
+    /// </summary>
+    /// <returns></returns>
     private async Task ExportExcel()
     {
         var matchedEmployee = m_lstEmployeeSuggest
@@ -284,7 +288,7 @@ public partial class AssetTransfer
             return;
         }
 
-        string _strUrl = $"{m_AppSettings.Get<string>("ApiBaseUrl")}/api/v1/HCP/ExportAssetTransfer?userId={matchedEmployee.EmployeeNo}";
+        string _strUrl = $"{m_AppSettings.Get<string>("ApiBaseUrl")}/api/v1/HCP/ExportAssetTransfer?UserId={matchedEmployee.EmployeeNo}";
 
         if (m_Module != null)
         {
@@ -312,7 +316,7 @@ public partial class AssetTransfer
                 .Select(a => new TransferItem { AssetId = a.AssetId, ReceiverId = a.ReceiverId })
                 .ToList();
 
-            var (success, message) = await m_AssetTransferService.SubmitTransfersAsync(transferItems);
+            var (success, message) = await m_AssetTransferService.SubmitTransfers(transferItems);
 
             await JS.InvokeVoidAsync("alert", message);
 

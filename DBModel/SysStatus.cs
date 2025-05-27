@@ -18,14 +18,10 @@ public class SysStatus
     /// <summary>
     /// 狀態代號 (主鍵)
     /// </summary>
-    [Key]
-    [Required]
-    public int Status { get; set; }
+    public int Status { get; set; } = 0;
 
     /// <summary>
     /// 狀態說明
     /// </summary>
-    [StringLength(10)]
-    [Required]
-    public string StatusName { get; set; }
+    public string StatusName { get; set; }  = string.Empty;
 }

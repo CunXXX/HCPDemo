@@ -4,9 +4,8 @@ using System.ComponentModel.DataAnnotations;
 namespace DBModel;
 
 /// <summary>
-/// 資產資料細項 (複合主鍵)
+/// 資產資料細項 
 /// </summary>
-[Table("tblFADet")]
 public class FADet
 {
     private static string _TableName = "tblFADet";
@@ -23,73 +22,55 @@ public class FADet
     /// <summary>
     /// 資產編號 
     /// </summary>
-    [Key]
-    [Column(Order = 1)]
-    [StringLength(20)]
-    [Required]
-    public string FACode { get; set; }
-
+    public string FACode { get; set; } = string.Empty;
+     
     /// <summary>
     /// 保管人 
     /// </summary>
-    [Key]
-    [Column(Order = 2)]
-    [StringLength(10)]
-    [Required]
-    public string StoreRecorder { get; set; }
+    public string StoreRecorder { get; set; } = string.Empty;
 
     /// <summary>
     /// 保管部門 
     /// </summary>
-    [Key]
-    [Column(Order = 3)]
-    [StringLength(10)]
-    [Required]
-    public string StoreDeptCode { get; set; }
+    public string StoreDeptCode { get; set; } = string.Empty;
 
     /// <summary>
     /// 存放地區 
     /// </summary>
-    [Key]
-    [Column(Order = 4)]
-    [StringLength(30)]
-    [Required]
-    public string LocationID { get; set; }
+    public string LocationID { get; set; } = string.Empty;
 
     /// <summary>
-    /// 保管數量 (預設: 0)
+    /// 保管數量
     /// </summary>
     public int Qty { get; set; } = 0;
 
     /// <summary>
-    /// 已出售數 (預設: 0)
+    /// 已出售數 
     /// </summary>
     public int ExSellQty { get; set; } = 0;
 
     /// <summary>
-    /// 已意外處分數量 (預設: 0)
+    /// 已意外處分數量 
     /// </summary>
     public int ExAccQty { get; set; } = 0;
 
     /// <summary>
-    /// 已報廢數量 (預設: 0)
+    /// 已報廢數量 
     /// </summary>
     public int ExScrapQty { get; set; } = 0;
 
     /// <summary>
     /// 細項備註
     /// </summary>
-    [StringLength(500)]
-    public string DetNote { get; set; } = "";
+    public string DetNote { get; set; } = string.Empty;
 
     /// <summary>
-    /// 最後修改日 (預設: 系統當前時間)
+    /// 最後修改日 
     /// </summary>
     public DateTime FixDate { get; set; } = DateTime.Now;
 
     /// <summary>
     /// 最後修改者
     /// </summary>
-    [StringLength(10)]
-    public string FixBy { get; set; } = "";
+    public string FixBy { get; set; } = string.Empty;
 }

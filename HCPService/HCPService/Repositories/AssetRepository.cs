@@ -61,7 +61,7 @@ public class AssetRepository : IAssetRepository
                 f.FACode AS AssetNumber,
                 f.FAName AS AssetName,
                 f.FASpec AS Spec,
-                f.Unit,
+                d.Qty AS Unit,
                 l.LocationName AS Location,
                 '' AS ReceiverName
             FROM {FA.TableName} f
@@ -129,7 +129,7 @@ public class AssetRepository : IAssetRepository
             f.FACode AS AssetNumber,
             f.FAName AS AssetName,
             f.FASpec AS Spec,
-            f.Unit,
+            d.Qty AS Unit,
             l.LocationName AS Location,
             '' AS ReceiverName
         FROM {FA.TableName} f

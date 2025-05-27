@@ -21,20 +21,20 @@ public class HCPController : ControllerBase
     /// <summary>
     /// 使用者查詢
     /// </summary>
-    /// <param name="strKeyword"></param>
+    /// <param name="Keyword"></param>
     /// <returns></returns>
     [HttpGet]
-    public async Task<IActionResult> SearchEmployeeAsync([FromQuery] string strKeyword)
+    public async Task<IActionResult> SearchEmployee([FromQuery] string Keyword)
     {
-        if (string.IsNullOrWhiteSpace(strKeyword))
+        if (string.IsNullOrWhiteSpace(Keyword))
             return Ok(new List<EmployeeSuggest>());
 
         try
         {
-            if (string.IsNullOrWhiteSpace(strKeyword))
+            if (string.IsNullOrWhiteSpace(Keyword))
                 return Ok(new List<EmployeeSuggest>());
 
-            var result = await m_Service.SearchEmployeeAsync(strKeyword);
+            var result = await m_Service.SearchEmployeeAsync(Keyword);
             return Ok(result);
         }
         catch (Exception ex)
@@ -90,11 +90,11 @@ public class HCPController : ControllerBase
     /// <param name="strUserId"></param>
     /// <returns></returns>
     [HttpGet]
-    public async Task<IActionResult> ExportAssetTransfer([FromQuery] string strUserId)
+    public async Task<IActionResult> ExportAssetTransfer([FromQuery] string UserId)
     {
         try
         {
-            var _lstAssets = await m_Service.GetAssetsForExportAsync(strUserId); 
+            var _lstAssets = await m_Service.GetAssetsForExportAsync(UserId); 
 
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             using var _exlPackage = new ExcelPackage();

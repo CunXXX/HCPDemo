@@ -6,7 +6,6 @@ namespace DBModel;
 /// <summary>
 /// 存放地區基本檔
 /// </summary>
-[Table("tblLocation")]
 public class Location
 {
     private static string _TableName = "tblLocation";
@@ -21,32 +20,27 @@ public class Location
     }
 
     /// <summary>
-    /// 存放地區代號 (主鍵)
+    /// 存放地區代號 
     /// </summary>
-    [Key]
-    [StringLength(10)]
-    [Required]
-    public string LocationID { get; set; } = "";
+    public string LocationID { get; set; } = string.Empty;
 
     /// <summary>
     /// 存放地區名稱
     /// </summary>
-    [StringLength(100)]
-    public string LocationName { get; set; } = "";
+    public string LocationName { get; set; } = string.Empty;
 
     /// <summary>
-    /// 是否停用 (預設: false)
+    /// 是否停用 
     /// </summary>
     public bool IsNotValid { get; set; } = false;
 
     /// <summary>
     /// 最後修改者
     /// </summary>
-    [StringLength(10)]
-    public string FixBy { get; set; } = "";
+    public string FixBy { get; set; } = string.Empty;
 
     /// <summary>
-    /// 最後修改日期 (預設: 系統當前時間)
+    /// 最後修改日期
     /// </summary>
     public DateTime FixDate { get; set; } = DateTime.Now;
 }

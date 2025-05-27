@@ -6,7 +6,6 @@ namespace DBModel
     /// <summary>
     /// 員工基本檔
     /// </summary>
-    [Table("tblSysUser")]
     public class SysUser
     {
         private static string _TableName = "tblSysUser";
@@ -23,22 +22,17 @@ namespace DBModel
         /// <summary>
         /// 使用者代號 (主鍵)
         /// </summary>
-        [Key]
-        [StringLength(10)]
-        [Required]
-        public string UserID { get; set; }
+        public string UserID { get; set; } = string.Empty;
 
         /// <summary>
         /// 使用者名稱
         /// </summary>
-        [StringLength(30)]
-        public string UserName { get; set; } = "";
+        public string UserName { get; set; } = string.Empty;
 
         /// <summary>
         /// 部門代號
         /// </summary>
-        [StringLength(10)]
-        public string DeptCode { get; set; } = "";
+        public string DeptCode { get; set; } = string.Empty;
 
         /// <summary>
         /// 是否停用 (預設: false)
@@ -53,7 +47,6 @@ namespace DBModel
         /// <summary>
         /// 最後修改者
         /// </summary>
-        [StringLength(10)]
-        public string FixBy { get; set; } = "";
+        public string FixBy { get; set; } = string.Empty;
     }
 }
