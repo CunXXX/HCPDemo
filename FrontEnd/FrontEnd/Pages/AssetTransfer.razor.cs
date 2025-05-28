@@ -161,7 +161,10 @@ public partial class AssetTransfer
         var _strKeyword = e.Value?.ToString();
 
         if (string.IsNullOrWhiteSpace(_strKeyword))
+        {
+            m_lstEmployeeSuggest.Clear();
             return;
+        }
 
         // 如果已經存在選項中，就不要再查詢
         if (m_lstEmployeeSuggest.Any(x => x.DisplayName == _strKeyword))
